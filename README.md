@@ -1,17 +1,21 @@
 # 💥 Android Crash Reporter
 
-Capture and parse Android crashes and ANRs from any device via ADB.
+Parse crashes and ANRs from Android logcat or bugreport files.
 
-## Tools
-| Script | What it does |
-|--------|-------------|
-| `crash_watcher.py` | Live crash monitor — prints stack traces as they happen |
-| `anr_dump.py` | Pull and parse ANR traces from /data/anr/ |
-| `crash_report.py` | Generate a crash report from logcat history |
+## Usage
 
-## Quick start
 ```bash
-python3 crash_watcher.py                    # watch for any crash
-python3 crash_watcher.py --app com.example  # watch specific app
-python3 anr_dump.py --output anr_report.txt
+# Parse bugreport
+python3 crash_parser.py bugreport.zip
+
+# Live logcat monitoring
+adb logcat | python3 crash_parser.py --live
+
+# Filter by app
+python3 crash_parser.py bugreport.zip --app com.example.app
+
+# JSON output
+python3 crash_parser.py bugreport.zip --json
 ```
+
+Extracts: crash type, app name, timestamp, exception message, and stack trace (first 10 frames).
